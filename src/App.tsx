@@ -9,7 +9,7 @@ interface videoInfo {
 
 let video: videoInfo[] = [
   {
-    name: "Fabiano Caruana - Gukesh D",
+    name: "Round 5 | Gukesh D - Nijat Abasov | FIDE Candidates 2024",
     url: "https://www.youtube.com/embed/a0FUV2isNxo?si=xcviqHy02ARppG_y",
   },
   {
@@ -17,11 +17,6 @@ let video: videoInfo[] = [
     url: "https://www.youtube.com/embed/7c1ogSx3c30?si=BZO0Fhz7HR-GXL39",
   },
 ];
-
-// let namesMap = new Map<number, string>([
-//   [1, "https://www.youtube.com/embed/a0FUV2isNxo?si=xcviqHy02ARppG_y"],
-//   [2, "https://www.youtube.com/embed/7c1ogSx3c30?si=BZO0Fhz7HR-GXL39"],
-// ]);
 
 function replaceSrc(link: MouseEvent<HTMLButtonElement>, value: number) {
   var srcName = video[value].url;
@@ -40,6 +35,9 @@ function replaceSrc(link: MouseEvent<HTMLButtonElement>, value: number) {
   }
 }
 
+var channelID = "UC9B47GnzCRFHTT1BIBWvStQ";
+var reqURL = "https://www.youtube.com/feeds/videos.xml?channel_id=";
+
 function App() {
   return (
     <div className="App">
@@ -52,11 +50,10 @@ function App() {
               width="650px"
               height="365px"
               src=""
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
+              className="bg-button-main"
             ></iframe>
 
             <div className="flex flex-col gap-2">
@@ -80,13 +77,28 @@ function App() {
           <iframe
             width="650px"
             height="365px"
-            src="https://www.youtube.com/embed/bR4cZqUFgTw?si=sNMYMFgZnoP6w0KV"
+            src="https://www.youtube.com/embed/ocO_lsTiB8Y?si=WFR8eQE9fs6qRqVm"
             title="YouTube video player"
-            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
+        </div>
+
+        <div className="mt-12">
+          <h2>Upcoming</h2>
+          <div className="flex flex-row gap-4">
+            <iframe
+              width="400px"
+              height="225px"
+              src="https://www.youtube.com/embed/live_stream?channel=UC9B47GnzCRFHTT1BIBWvStQ"
+            ></iframe>
+            <iframe
+              width="400px"
+              height="225px"
+              src="https://www.youtube.com/embed/live_stream?channel=UC9B47GnzCRFHTT1BIBWvStQ"
+            ></iframe>
+          </div>
         </div>
       </body>
     </div>
@@ -94,3 +106,6 @@ function App() {
 }
 
 export default App;
+
+//UC9B47GnzCRFHTT1BIBWvStQ
+//UC9B47GnzCRFHTT1BIBWvStQ
