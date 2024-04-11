@@ -95,8 +95,25 @@ function viewMode() {
     "button-videos"
   ) as HTMLCollectionOf<HTMLElement>;
 
+  const buttonModes = document.getElementsByClassName(
+    "button-mode"
+  ) as HTMLCollectionOf<HTMLElement>;
+
+  const iframe = document.getElementsByTagName(
+    "iframe"
+  ) as HTMLCollectionOf<HTMLElement>;
+
   for (let i = 0; i < buttonVideos.length; i++) {
     buttonVideos[i].style.display = "none";
+  }
+
+  for (let i = 0; i < iframe.length; i++) {
+    iframe[i].style.width = "1000px";
+    iframe[i].style.height = "478px";
+  }
+
+  for (let i = 0; i < buttonModes.length; i++) {
+    buttonModes[i].textContent = "Go back";
   }
 }
 
@@ -113,7 +130,7 @@ function App() {
         <div className="inline-block">
           <h1>CHESS STREAM</h1>
           <button className="button button-mode" onClick={() => viewMode()}>
-            Only two screens mode
+            Screen mode
           </button>
         </div>
 
