@@ -72,13 +72,12 @@ h2 {
   outline-offset: 2px;
 }
 
+.accordion-content {
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
 @media (min-width: 768px) {
   .button-40 {
     padding: 0.75rem 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  iframe {
   }
 }

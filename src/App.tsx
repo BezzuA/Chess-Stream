@@ -1,6 +1,6 @@
 import React from "react";
 import { MouseEvent } from "react";
-import { google } from "googleapis";
+import { useState } from "react";
 import "./App.css";
 
 interface videoInfo {
@@ -90,11 +90,13 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
   }
 }
 
-function fullScreenVideos(
-  link: MouseEvent<HTMLButtonElement>,
-  status: boolean
-) {
-  if (status == true) {
+function viewMode() {
+  const buttonVideos = document.getElementsByClassName(
+    "button-videos"
+  ) as HTMLCollectionOf<HTMLElement>;
+
+  for (let i = 0; i < buttonVideos.length; i++) {
+    buttonVideos[i].style.display = "none";
   }
 }
 
@@ -103,39 +105,40 @@ window.onload = () => {
 };
 
 function App() {
+  const [isActive, setIsActive] = useState(false);
+
   return (
     <div className="App">
       <body className="App-header">
-        <div className="inline-flex items-center justify-center gap-4 mt-8">
+        <div className="inline-block">
           <h1>CHESS STREAM</h1>
-          <button
-            id="buttonFullScreen"
-            className="button"
-            onClick={(e) => fullScreenVideos(e, true)}
-          >
-            Full screen
+          <button className="button button-mode" onClick={() => viewMode()}>
+            Only two screens mode
           </button>
         </div>
 
         <div className="flex flex-wrap w-full mt-12 justify-evenly">
           <div className="flex flex-col gap-12">
-            <iframe
-              id="streams"
-              width="650px"
-              height="365px"
-              src=""
-              rel="0"
-              data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="bg-button-main"
-            ></iframe>
+            <div>
+              <iframe
+                id="streams"
+                width="650px"
+                height="365px"
+                src=""
+                rel="0"
+                data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="bg-button-main"
+              ></iframe>
+            </div>
 
             <div className="flex flex-col gap-2">
+              {/* button div */}
               {videoStreams.map((video, index) => (
                 <button
-                  key={video.id} // Use unique id for key
-                  className="button"
+                  key={video.id}
+                  className="button button-videos"
                   id={`btn-${video.id}`}
                   onClick={(e) => replaceStream(e, index)}
                 >
@@ -146,23 +149,25 @@ function App() {
           </div>
 
           <div className="flex flex-col gap-12">
-            <iframe
-              id="comments"
-              width="650px"
-              height="365px"
-              rel="0"
-              src=""
-              data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="bg-button-main"
-            ></iframe>
+            <div>
+              <iframe
+                id="comments"
+                width="650px"
+                height="365px"
+                rel="0"
+                src=""
+                data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="bg-button-main"
+              ></iframe>
+            </div>
 
             <div className="flex flex-col gap-2">
               {videoComments.map((video, index) => (
                 <button
                   key={video.id} // Use unique id for key
-                  className="button"
+                  className="button button-videos"
                   id={`btn-${video.id}`}
                   onClick={(e) => replaceComments(e, index)}
                 >
@@ -182,3 +187,23 @@ function App() {
 export default App;
 
 //UC9B47GnzCRFHTT1BIBWvStQ
+
+{
+  /* <div onClick={() => setIsActive(!isActive)}>
+              <h2 className="cursor-pointer">FIDE Chess</h2>
+              {isActive && (
+                <div className="flex flex-col gap-2">
+                  {videoStreams.map((video, index) => (
+                    <button
+                      key={video.id}
+                      className="button button-videos"
+                      id={`btn-${video.id}`}
+                      onClick={(e) => replaceStream(e, index)}
+                    >
+                      {video.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div> */
+}
