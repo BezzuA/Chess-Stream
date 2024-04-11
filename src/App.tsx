@@ -1,6 +1,6 @@
 import React from "react";
-import { MouseEvent } from "react";
-import { useState } from "react";
+import { MouseEvent, useState, useEffect } from "react";
+import data from "./data.json";
 import "./App.css";
 
 interface videoInfo {
@@ -13,39 +13,39 @@ let videoStreams: videoInfo[] = [
   {
     id: 1,
     name: "Ian Nepomniachtchi - Fabiano Caruana",
-    url: "https://www.youtube.com/embed/nVsPuldyXW8?si=2vnUdHtUwMsjQxR1&autoplay=1",
+    url: "https://www.youtube.com/embed/nVsPuldyXW8?si=2vnUdHtUwMsjQxR1",
   },
   {
     id: 2,
     name: "Praggnanandhaa R - Nijat Abasov",
-    url: "https://www.youtube.com/embed/02i-3yqiXIs?si=eVvsbc09yMwznWfL&autoplay=1",
+    url: "https://www.youtube.com/embed/02i-3yqiXIs?si=eVvsbc09yMwznWfL",
   },
   {
     id: 3,
     name: "Vidit Gujrathi - Alireza Firouzja",
-    url: "https://www.youtube.com/embed/3uSwcfHV1-s?si=zutS8k7dW9X3ViT1&autoplay=1",
+    url: "https://www.youtube.com/embed/3uSwcfHV1-s?si=zutS8k7dW9X3ViT1",
   },
   {
     id: 4,
     name: "Gukesh D - Hikaru Nakamura",
-    url: "https://www.youtube.com/embed/FAMSqtRsAts?si=AC2rfNntGw_PJ3KY&autoplay=1",
+    url: "https://www.youtube.com/embed/FAMSqtRsAts?si=AC2rfNntGw_PJ3KY",
   },
 ];
 let videoComments: videoInfo[] = [
   {
     id: 1,
-    name: "Round 6 FIDE Candidates & Women's Candidates",
-    url: "https://www.youtube.com/embed/_oeOXM7M6Y4?si=JVTxTLKEjlBllWph&autoplay=1",
+    name: "Round 7 FIDE Candidates & Women's Candidates",
+    url: "https://www.youtube.com/embed/_JciE2QgVck?si=6-GUUf4FDhddoeVg",
   },
   {
     id: 2,
     name: "Crestbook Chess",
-    url: "https://www.youtube.com/embed/z2WkJDcRqLc?si=GeJy_6Chooe5-RT9&autoplay=1",
+    url: "https://www.youtube.com/embed/z2WkJDcRqLc?si=GeJy_6Chooe5-RT9",
   },
   {
     id: 3,
     name: "Levitov Chess",
-    url: "https://www.youtube.com/embed/live_stream?channel=UC2LfLTCrohyJvUDl9-51RjQ&autoplay=1",
+    url: "https://www.youtube.com/embed/live_stream?channel=UC2LfLTCrohyJvUDl9-51RjQ",
   },
 ];
 
@@ -65,12 +65,22 @@ function autoPreview() {
 }
 
 function replaceStream(link: MouseEvent<HTMLButtonElement>, value: number) {
+  const buttonVideos = document.getElementsByClassName(
+    "button-stream"
+  ) as HTMLCollectionOf<HTMLElement>;
+
   if (videoStreams[value].url !== undefined) {
     const iframe = document.getElementById(
       "streams"
     ) as HTMLIFrameElement | null;
+
+    for (let i = 0; i < buttonVideos.length; i++) {
+      buttonVideos[i].style.background = "#111827";
+    }
+
     if (iframe) {
       iframe.src = videoStreams[value].url;
+      buttonVideos[value].style.background = "#6b7280";
     } else {
       console.error("Iframe not found");
     }
@@ -80,10 +90,20 @@ function replaceStream(link: MouseEvent<HTMLButtonElement>, value: number) {
 }
 
 function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
+  const buttonVideos = document.getElementsByClassName(
+    "button-comment"
+  ) as HTMLCollectionOf<HTMLElement>;
+
   if (videoComments[value].url !== undefined) {
     const iframe = document.getElementById(
       "comments"
     ) as HTMLIFrameElement | null;
+
+    for (let i = 0; i < buttonVideos.length; i++) {
+      buttonVideos[i].style.background = "#111827";
+      buttonVideos[value].style.background = "#6b7280";
+    }
+
     if (iframe) {
       iframe.src = videoComments[value].url;
     }
@@ -91,25 +111,30 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
 }
 
 function viewMode() {
-  const buttonVideos = document.getElementsByClassName(
-    "button-videos"
-  ) as HTMLCollectionOf<HTMLElement>;
+  const buttonStreams = document.getElementsByClassName(
+      "button-stream"
+    ) as HTMLCollectionOf<HTMLElement>,
+    buttonComments = document.getElementsByClassName(
+      "button-comment"
+    ) as HTMLCollectionOf<HTMLElement>,
+    buttonModes = document.getElementsByClassName(
+      "button-mode"
+    ) as HTMLCollectionOf<HTMLElement>,
+    iframe = document.getElementsByTagName(
+      "iframe"
+    ) as HTMLCollectionOf<HTMLElement>;
 
-  const buttonModes = document.getElementsByClassName(
-    "button-mode"
-  ) as HTMLCollectionOf<HTMLElement>;
-
-  const iframe = document.getElementsByTagName(
-    "iframe"
-  ) as HTMLCollectionOf<HTMLElement>;
-
-  for (let i = 0; i < buttonVideos.length; i++) {
-    buttonVideos[i].style.display = "none";
+  for (let i = 0; i < buttonStreams.length; i++) {
+    buttonStreams[i].style.display = "none";
+  }
+  for (let i = 0; i < buttonComments.length; i++) {
+    buttonComments[i].style.display = "none";
   }
 
   for (let i = 0; i < iframe.length; i++) {
     iframe[i].style.width = "1000px";
-    iframe[i].style.height = "478px";
+    iframe[i].style.height = "450px";
+    buttonStreams[i].style.display = "none";
   }
 
   for (let i = 0; i < buttonModes.length; i++) {
@@ -119,16 +144,24 @@ function viewMode() {
 
 window.onload = () => {
   autoPreview();
+
+  const buttonStreams = document.getElementsByClassName(
+      "button-stream"
+    ) as HTMLCollectionOf<HTMLElement>,
+    buttonComments = document.getElementsByClassName(
+      "button-comment"
+    ) as HTMLCollectionOf<HTMLElement>;
+
+  buttonStreams[0].style.background = "#6b7280";
+  buttonComments[0].style.background = "#6b7280";
 };
 
 function App() {
-  const [isActive, setIsActive] = useState(false);
-
   return (
     <div className="App">
       <body className="App-header">
-        <div className="inline-block">
-          <h1>CHESS STREAM</h1>
+        <div className="inline-block w-full h-full">
+          <h1 className="title_underline">CHESS STREAM</h1>
           <button className="button button-mode" onClick={() => viewMode()}>
             Screen mode
           </button>
@@ -155,7 +188,7 @@ function App() {
               {videoStreams.map((video, index) => (
                 <button
                   key={video.id}
-                  className="button button-videos"
+                  className="button button-stream "
                   id={`btn-${video.id}`}
                   onClick={(e) => replaceStream(e, index)}
                 >
@@ -183,8 +216,8 @@ function App() {
             <div className="flex flex-col gap-2">
               {videoComments.map((video, index) => (
                 <button
-                  key={video.id} // Use unique id for key
-                  className="button button-videos"
+                  key={video.id}
+                  className="button button-comment"
                   id={`btn-${video.id}`}
                   onClick={(e) => replaceComments(e, index)}
                 >

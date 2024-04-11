@@ -35,12 +35,18 @@ h2 {
   text-align: center;
 }
 
+span {
+  background-color: #ffffff;
+  width: 100%;
+  height: 4px;
+}
+
 .button {
   background-color: #111827;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
-  color: #ffffff;
+
   cursor: pointer;
   flex: 0 0 auto;
   font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui,
