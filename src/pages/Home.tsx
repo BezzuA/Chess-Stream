@@ -1,6 +1,6 @@
 import React from "react";
-import { MouseEvent, useState, useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { MouseEvent, useState, useEffect, createContext } from "react";
+import PhoneMode from "../components/PhoneMode";
 import data from "../data.json";
 
 import "./App.css";
@@ -15,10 +15,10 @@ function autoPreview() {
     ) as HTMLIFrameElement | null;
 
   if (iframeStreams) {
-    iframeStreams.src = data.videoStreams[0].url;
+    iframeStreams.src = data.videoStreams[0].url + "&rel=0";
   }
   if (iframeComments) {
-    iframeComments.src = data.videoComments[0].url;
+    iframeComments.src = data.videoComments[0].url + "&rel=0";
   }
 }
 
@@ -37,7 +37,7 @@ function replaceStream(link: MouseEvent<HTMLButtonElement>, value: number) {
     }
 
     if (iframe) {
-      iframe.src = data.videoStreams[value].url;
+      iframe.src = data.videoStreams[value].url + "&rel=0";
       buttonVideos[value].style.background = "#6b7280";
     } else {
       console.error("Iframe not found");
@@ -63,9 +63,53 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
     }
 
     if (iframe) {
-      iframe.src = data.videoComments[value].url;
+      iframe.src = data.videoComments[value].url + "&rel=0";
     }
   }
+}
+
+function phoneStreamMode() {
+  const buttonStreams = document.getElementsByClassName(
+      "button-stream"
+    ) as HTMLCollectionOf<HTMLElement>,
+    buttonComments = document.getElementsByClassName(
+      "button-comment"
+    ) as HTMLCollectionOf<HTMLElement>,
+    boxComments = document.getElementById(
+      "box-comments"
+    ) as HTMLIFrameElement | null,
+    boxPreview = document.getElementsByTagName(
+      "box-preview"
+    ) as HTMLCollectionOf<HTMLElement>,
+    boxIframe = document.getElementsByClassName(
+      "box-iframe"
+    ) as HTMLCollectionOf<HTMLElement>,
+    boxColumn = document.getElementsByClassName(
+      "box-column"
+    ) as HTMLCollectionOf<HTMLElement>;
+
+  for (let i = 0; i < buttonStreams.length; i++) {
+    buttonStreams[i].style.display = "none";
+  }
+  for (let i = 0; i < buttonComments.length; i++) {
+    buttonComments[i].style.display = "none";
+  }
+  for (let i = 0; i < boxIframe.length; i++) {
+    boxIframe[i].style.width = "90wh";
+    boxIframe[i].style.height = "95vh";
+  }
+  for (let i = 0; i < boxColumn.length; i++) {
+    boxColumn[i].style.gap = "0px";
+  }
+  for (let i = 0; i < boxPreview.length; i++) {
+    boxPreview[i].style.justifyContent = "flex-start";
+  }
+
+  if (boxComments) {
+    boxComments.style.display = "none";
+  }
+
+  document.getElementsByTagName("h1")[0].style.display = "none";
 }
 
 function viewMode() {
@@ -86,6 +130,9 @@ function viewMode() {
     ) as HTMLCollectionOf<HTMLElement>,
     boxColumn = document.getElementsByClassName(
       "box-column"
+    ) as HTMLCollectionOf<HTMLElement>,
+    boxPreview = document.getElementsByClassName(
+      "box-preview"
     ) as HTMLCollectionOf<HTMLElement>;
 
   for (let i = 0; i < buttonStreams.length; i++) {
@@ -96,14 +143,16 @@ function viewMode() {
   }
 
   for (let i = 0; i < boxIframe.length; i++) {
-    boxIframe[i].style.width = "95vw";
-    boxIframe[i].style.height = "50vh";
+    boxIframe[i].style.width = "50svw";
+    boxIframe[i].style.height = "90vh";
   }
 
   for (let i = 0; i < boxColumn.length; i++) {
     boxColumn[i].style.gap = "0px";
+    boxColumn[i].style.flexWrap = "nowrap ";
   }
 
+  boxPreview[0].style.flexWrap = "nowrap ";
   document.getElementsByTagName("h1")[0].style.display = "none";
 }
 
@@ -115,26 +164,42 @@ window.onload = () => {
     ) as HTMLCollectionOf<HTMLElement>,
     buttonComments = document.getElementsByClassName(
       "button-comment"
+    ) as HTMLCollectionOf<HTMLElement>,
+    boxPreview = document.getElementsByTagName(
+      "box-preview"
     ) as HTMLCollectionOf<HTMLElement>;
 
+  boxPreview[0].style.justifyContent = "evenly";
   buttonStreams[0].style.background = "#6b7280";
   buttonComments[0].style.background = "#6b7280";
 };
 
 function Home() {
+  const [open, setOpen] = useState(false);
+  const onClickHandle = () => {
+    setOpen(true);
+    phoneStreamMode();
+  };
+
   return (
     <div className="App">
       <body className="App-header">
         <div className="inline-block w-full h-full">
           <h1 className="title_underline">CHESS STREAM</h1>
-          <button className="button button-mode" onClick={() => viewMode()}>
-            Watch mode
-          </button>
+          <div className="inline-flex gap-4">
+            <button className="button button-mode" onClick={() => viewMode()}>
+              Full screen mode
+            </button>
+            <button className="button button-mode" onClick={onClickHandle}>
+              Phone stream
+            </button>
+          </div>
         </div>
 
-        <div className="flex flex-wrap w-full mt-12 container-growth justify-evenly">
+        <div className="flex flex-wrap justify-center w-full gap-2 mt-12 container-growth box-preview">
+          {open && <PhoneMode />}
           <div className="flex flex-col gap-12 box-column">
-            <div className="box-iframe w-[650px] h-[365px]">
+            <div className="box-iframe w-[48vw] h-[365px]">
               <iframe
                 id="streams"
                 src=""
@@ -161,8 +226,11 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-12 container-growth ">
-            <div className="box-iframe w-[650px] h-[365px]">
+          <div
+            id="box-comments"
+            className="flex flex-col gap-12 container-growth "
+          >
+            <div className="box-iframe w-[48vw] h-[365px]">
               <iframe
                 id="comments"
                 rel="0"

@@ -2,41 +2,41 @@
   "videoStreams": [
     {
       "id": 1,
-      "name": "Ian Nepomniachtchi - Fabiano Caruana",
-      "url": "https://www.youtube.com/embed/nVsPuldyXW8?si=2vnUdHtUwMsjQxR1"
+      "name": "Praggnanandhaa R - Alireza Firouzja",
+      "url": "https://www.youtube.com/embed/Yfly0JA28TQ?si=GFGZmRYELIlTdVjc"
     },
     {
       "id": 2,
-      "name": "Praggnanandhaa R - Nijat Abasov",
-      "url": "https://www.youtube.com/embed/02i-3yqiXIs?si=eVvsbc09yMwznWfL"
+      "name": "Ian Nepomniachtchi - Nijat Abasov",
+      "url": "https://www.youtube.com/embed/2FaZKPYXdW4?si=_YJsPOQd-oNJYpRH"
     },
     {
       "id": 3,
-      "name": "Vidit Gujrathi - Alireza Firouzja",
-      "url": "https://www.youtube.com/embed/3uSwcfHV1-s?si=zutS8k7dW9X3ViT1"
+      "name": "Hikaru Nakamura - Fabiano Caruana",
+      "url": "https://www.youtube.com/embed/0-XC_x0R5cU?si=ucnFoD9RA_Y3gz3T"
     },
     {
       "id": 4,
-      "name": "Gukesh D - Hikaru Nakamura",
-      "url": "https://www.youtube.com/embed/FAMSqtRsAts?si=AC2rfNntGw_PJ3KY"
+      "name": "Vidit Gujrathi - Gukesh D",
+      "url": "https://www.youtube.com/embed/EKdGWKIK7JM?si=ppJBCQieq9oJjs5m"
     }
   ],
 
   "videoComments": [
     {
       "id": 1,
-      "name": "Round 7 FIDE Candidates & Women's Candidates",
-      "url": "https://www.youtube.com/embed/_JciE2QgVck?si=6-GUUf4FDhddoeVg"
+      "name": "Round 8 FIDE Candidates & Women's Candidates",
+      "url": "https://www.youtube.com/embed/tox4P2slZT4?si=Y9E9OtfiDhiQIKvo"
     },
     {
       "id": 2,
       "name": "Crestbook Chess",
-      "url": "https://www.youtube.com/embed/z2WkJDcRqLc?si=GeJy_6Chooe5-RT9"
+      "url": "https://www.youtube.com/embed/3VBcK4TauBA?si=Mig2WS2FiR3pdE8x"
     },
     {
       "id": 3,
       "name": "Levitov Chess",
-      "url": "https://www.youtube.com/embed/live_stream?channel=UC2LfLTCrohyJvUDl9-51RjQ"
+      "url": "https://www.youtube.com/embed/OLlVBEq_Y2U?si=Xo9PlkpNnbg6U_7l"
     }
   ]
 }

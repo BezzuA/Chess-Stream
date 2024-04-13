@@ -18,10 +18,10 @@ function autoPreview() {
     ) as HTMLIFrameElement | null;
 
   if (iframeStreams) {
-    iframeStreams.src = data.videoStreams[0].url;
+    iframeStreams.src = data.videoStreams[0].url + "&rel=0";
   }
   if (iframeComments) {
-    iframeComments.src = data.videoComments[0].url;
+    iframeComments.src = data.videoComments[0].url + "&rel=0";
   }
 }
 
