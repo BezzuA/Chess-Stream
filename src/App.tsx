@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/App" element={<App />}></Route>
-        <Route path="/FullScreenMode" element={<FullScreenMode />}></Route>
+        <Route path="/fullscreenmode" element={<FullScreenMode />}></Route>
       </Routes>
     </>
   );
