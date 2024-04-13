@@ -1,9 +1,13 @@
 import React from "react";
-import { MouseEvent, useState, useEffect } from "react";
+import { MouseEvent, useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Pagination } from "swiper/modules";
 import data from "../data.json";
 
-import "./App.css";
+import "./FullScreenMode.css";
 import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
 
 function autoPreview() {
   const iframeStreams = document.getElementById(
@@ -68,30 +72,16 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
 }
 
 function viewMode() {
-  const buttonStreams = document.getElementsByClassName(
-      "button-stream"
-    ) as HTMLCollectionOf<HTMLElement>,
-    buttonComments = document.getElementsByClassName(
-      "button-comment"
-    ) as HTMLCollectionOf<HTMLElement>,
-    buttonModes = document.getElementsByClassName(
+  const buttonModes = document.getElementsByClassName(
       "button-mode"
     ) as HTMLCollectionOf<HTMLElement>,
     iframe = document.getElementsByTagName(
       "iframe"
     ) as HTMLCollectionOf<HTMLElement>;
 
-  for (let i = 0; i < buttonStreams.length; i++) {
-    buttonStreams[i].style.display = "none";
-  }
-  for (let i = 0; i < buttonComments.length; i++) {
-    buttonComments[i].style.display = "none";
-  }
-
   for (let i = 0; i < iframe.length; i++) {
     iframe[i].style.width = "1000px";
     iframe[i].style.height = "50vh";
-    buttonStreams[i].style.display = "none";
   }
 
   for (let i = 0; i < buttonModes.length; i++) {
@@ -101,89 +91,35 @@ function viewMode() {
 
 window.onload = () => {
   autoPreview();
-
-  const buttonStreams = document.getElementsByClassName(
-      "button-stream"
-    ) as HTMLCollectionOf<HTMLElement>,
-    buttonComments = document.getElementsByClassName(
-      "button-comment"
-    ) as HTMLCollectionOf<HTMLElement>;
-
-  buttonStreams[0].style.background = "#6b7280";
-  buttonComments[0].style.background = "#6b7280";
 };
 
 function FullScreenMode() {
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
   return (
-    <div className="App">
-      <body className="App-header">
-        <div className="inline-block w-full h-full">
-          <h1 className="title_underline">CHESS STREAM</h1>
-          <button className="button button-mode" onClick={() => viewMode()}>
-            Watch mode
-          </button>
-        </div>
+    <>
+      <div>
+        <iframe
+          id="streams"
+          src=""
+          rel="0"
+          data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className="box1"
+        ></iframe>
 
-        <div className="flex flex-wrap w-full mt-12 container-growth justify-evenly">
-          <div className="flex flex-col gap-12 ">
-            <iframe
-              id="streams"
-              width="650px"
-              height="365px"
-              src=""
-              rel="0"
-              data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="box1"
-            ></iframe>
-
-            <div className="flex flex-col w-full gap-2">
-              {/* button div */}
-              {data.videoStreams.map((video, index) => (
-                <button
-                  key={video.id}
-                  className="button button-stream "
-                  id={`btn-${video.id}`}
-                  onClick={(e) => replaceStream(e, index)}
-                >
-                  {video.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-12 container-growth">
-            <div>
-              <iframe
-                id="comments"
-                width="650px"
-                height="365px"
-                rel="0"
-                src=""
-                data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="bg-button-main box2"
-              ></iframe>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {data.videoComments.map((video, index) => (
-                <button
-                  key={video.id}
-                  className="button button-comment"
-                  id={`btn-${video.id}`}
-                  onClick={(e) => replaceComments(e, index)}
-                >
-                  {video.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </body>
-    </div>
+        <iframe
+          id="comments"
+          rel="0"
+          src=""
+          data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className="box2"
+        ></iframe>
+      </div>
+      <div className="flex col-2 ScreenDiv"></div>
+    </>
   );
 }
 

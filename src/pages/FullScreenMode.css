@@ -1,0 +1,11 @@
+.ScreenDiv {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* iframe {
+  width: 95%;
+  height: 50vh;
+} */

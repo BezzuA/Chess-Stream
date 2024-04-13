@@ -1,56 +1,10 @@
 import React from "react";
 import { MouseEvent, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from "react-router-dom";
+import data from "../data.json";
 
 import "./App.css";
 import "swiper/css";
-
-interface videoInfo {
-  id: number;
-  name: string;
-  url: string;
-}
-
-let videoStreams: videoInfo[] = [
-  {
-    id: 1,
-    name: "Fabiano Caruana - Praggnanandhaa R",
-    url: "https://www.youtube.com/embed/_np7znoyPN8?si=jbkCL4hRyT2cM2xh",
-  },
-  {
-    id: 2,
-    name: "Alireza Firouzja - Gukesh D",
-    url: "https://www.youtube.com/embed/bpa0CJ_rZKE?si=ST8KvQnpvRk_xVN9",
-  },
-  {
-    id: 3,
-    name: "Nijat Abasov - Vidit Gujrathi",
-    url: "https://www.youtube.com/embed/fTjaCPHzK0k?si=Q_CoE-x2jfaFJYaG",
-  },
-  {
-    id: 4,
-    name: "Hikaru Nakamura- Ian Nepomniachtchi",
-    url: "https://www.youtube.com/embed/sF-W6Gh3KPw?si=lFwp7ujPf_KiCl3c",
-  },
-];
-let videoComments: videoInfo[] = [
-  {
-    id: 1,
-    name: "Round 7 FIDE Candidates & Women's Candidates",
-    url: "https://www.youtube.com/embed/_JciE2QgVck?si=6-GUUf4FDhddoeVg",
-  },
-  {
-    id: 2,
-    name: "Crestbook Chess",
-    url: "https://www.youtube.com/embed/mNg3QtGTjQY",
-  },
-  {
-    id: 3,
-    name: "Levitov Chess",
-    url: "https://www.youtube.com/embed/axaCtKW3Rno?si=aDweTTP6CRPzrWmU",
-  },
-];
 
 function autoPreview() {
   const iframeStreams = document.getElementById(
@@ -61,10 +15,10 @@ function autoPreview() {
     ) as HTMLIFrameElement | null;
 
   if (iframeStreams) {
-    iframeStreams.src = videoStreams[0].url;
+    iframeStreams.src = data.videoStreams[0].url;
   }
   if (iframeComments) {
-    iframeComments.src = videoComments[0].url;
+    iframeComments.src = data.videoComments[0].url;
   }
 }
 
@@ -73,7 +27,7 @@ function replaceStream(link: MouseEvent<HTMLButtonElement>, value: number) {
     "button-stream"
   ) as HTMLCollectionOf<HTMLElement>;
 
-  if (videoStreams[value].url !== undefined) {
+  if (data.videoStreams[value].url !== undefined) {
     const iframe = document.getElementById(
       "streams"
     ) as HTMLIFrameElement | null;
@@ -83,7 +37,7 @@ function replaceStream(link: MouseEvent<HTMLButtonElement>, value: number) {
     }
 
     if (iframe) {
-      iframe.src = videoStreams[value].url;
+      iframe.src = data.videoStreams[value].url;
       buttonVideos[value].style.background = "#6b7280";
     } else {
       console.error("Iframe not found");
@@ -98,7 +52,7 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
     "button-comment"
   ) as HTMLCollectionOf<HTMLElement>;
 
-  if (videoComments[value].url !== undefined) {
+  if (data.videoComments[value].url !== undefined) {
     const iframe = document.getElementById(
       "comments"
     ) as HTMLIFrameElement | null;
@@ -109,7 +63,7 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
     }
 
     if (iframe) {
-      iframe.src = videoComments[value].url;
+      iframe.src = data.videoComments[value].url;
     }
   }
 }
@@ -126,6 +80,12 @@ function viewMode() {
     ) as HTMLCollectionOf<HTMLElement>,
     iframe = document.getElementsByTagName(
       "iframe"
+    ) as HTMLCollectionOf<HTMLElement>,
+    boxIframe = document.getElementsByClassName(
+      "box-iframe"
+    ) as HTMLCollectionOf<HTMLElement>,
+    boxColumn = document.getElementsByClassName(
+      "box-column"
     ) as HTMLCollectionOf<HTMLElement>;
 
   for (let i = 0; i < buttonStreams.length; i++) {
@@ -135,15 +95,16 @@ function viewMode() {
     buttonComments[i].style.display = "none";
   }
 
-  for (let i = 0; i < iframe.length; i++) {
-    iframe[i].style.width = "1000px";
-    iframe[i].style.height = "50vh";
-    buttonStreams[i].style.display = "none";
+  for (let i = 0; i < boxIframe.length; i++) {
+    boxIframe[i].style.width = "95vw";
+    boxIframe[i].style.height = "50vh";
   }
 
-  for (let i = 0; i < buttonModes.length; i++) {
-    buttonModes[i].textContent = "Go back";
+  for (let i = 0; i < boxColumn.length; i++) {
+    boxColumn[i].style.gap = "0px";
   }
+
+  document.getElementsByTagName("h1")[0].style.display = "none";
 }
 
 window.onload = () => {
@@ -172,22 +133,22 @@ function Home() {
         </div>
 
         <div className="flex flex-wrap w-full mt-12 container-growth justify-evenly">
-          <div className="flex flex-col gap-12 ">
-            <iframe
-              id="streams"
-              width="650px"
-              height="365px"
-              src=""
-              rel="0"
-              data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="box1"
-            ></iframe>
+          <div className="flex flex-col gap-12 box-column">
+            <div className="box-iframe w-[650px] h-[365px]">
+              <iframe
+                id="streams"
+                src=""
+                rel="0"
+                data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+            </div>
 
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex flex-col w-full gap-2 ">
               {/* button div */}
-              {videoStreams.map((video, index) => (
+              {data.videoStreams.map((video, index) => (
                 <button
                   key={video.id}
                   className="button button-stream "
@@ -200,23 +161,21 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-12 container-growth">
-            <div>
+          <div className="flex flex-col gap-12 container-growth ">
+            <div className="box-iframe w-[650px] h-[365px]">
               <iframe
                 id="comments"
-                width="650px"
-                height="365px"
                 rel="0"
                 src=""
                 data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
-                className="bg-button-main box2"
+                className="w-full h-full"
               ></iframe>
             </div>
 
             <div className="flex flex-col gap-2">
-              {videoComments.map((video, index) => (
+              {data.videoComments.map((video, index) => (
                 <button
                   key={video.id}
                   className="button button-comment"
