@@ -1,10 +1,11 @@
 import React from "react";
 import { MouseEvent, useState, useEffect, createContext } from "react";
 import PhoneMode from "../components/PhoneMode";
+import Video from "../components/video";
 import data from "../data.json";
 
 import "./App.css";
-import "swiper/css";
+import FullScreenMode from "./FullScreenMode";
 
 function autoPreview() {
   const iframeStreams = document.getElementById(
@@ -130,9 +131,6 @@ function viewMode() {
     ) as HTMLCollectionOf<HTMLElement>,
     boxColumn = document.getElementsByClassName(
       "box-column"
-    ) as HTMLCollectionOf<HTMLElement>,
-    boxPreview = document.getElementsByClassName(
-      "box-preview"
     ) as HTMLCollectionOf<HTMLElement>;
 
   for (let i = 0; i < buttonStreams.length; i++) {
@@ -152,7 +150,6 @@ function viewMode() {
     boxColumn[i].style.flexWrap = "nowrap ";
   }
 
-  boxPreview[0].style.flexWrap = "nowrap ";
   document.getElementsByTagName("h1")[0].style.display = "none";
 }
 
@@ -164,18 +161,15 @@ window.onload = () => {
     ) as HTMLCollectionOf<HTMLElement>,
     buttonComments = document.getElementsByClassName(
       "button-comment"
-    ) as HTMLCollectionOf<HTMLElement>,
-    boxPreview = document.getElementsByTagName(
-      "box-preview"
     ) as HTMLCollectionOf<HTMLElement>;
 
-  boxPreview[0].style.justifyContent = "evenly";
   buttonStreams[0].style.background = "#6b7280";
   buttonComments[0].style.background = "#6b7280";
 };
 
 function Home() {
   const [open, setOpen] = useState(false);
+
   const onClickHandle = () => {
     setOpen(true);
     phoneStreamMode();
@@ -200,15 +194,7 @@ function Home() {
           {open && <PhoneMode />}
           <div className="flex flex-col gap-12 box-column">
             <div className="box-iframe w-[48vw] h-[365px]">
-              <iframe
-                id="streams"
-                src=""
-                rel="0"
-                data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="w-full h-full"
-              ></iframe>
+              <Video id="streams" src=""></Video>
             </div>
 
             <div className="flex flex-col w-full gap-2 ">
@@ -231,15 +217,7 @@ function Home() {
             className="flex flex-col gap-12 container-growth "
           >
             <div className="box-iframe w-[48vw] h-[365px]">
-              <iframe
-                id="comments"
-                rel="0"
-                src=""
-                data-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="w-full h-full"
-              ></iframe>
+              <Video id="comments" />
             </div>
 
             <div className="flex flex-col gap-2">
