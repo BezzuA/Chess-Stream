@@ -1,6 +1,6 @@
 import React from "react";
 
-function Video(props: any) {
+function Video(props) {
   return (
     <iframe
       id={props.id}

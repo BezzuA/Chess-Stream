@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { MouseEvent, useState, useEffect, createContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import PhoneMode from "../components/PhoneMode";
 import Video from "../components/video";
 import data from "../data.json";
@@ -169,10 +170,26 @@ window.onload = () => {
 
 function Home() {
   const [open, setOpen] = useState(false);
+  const [isActive, setisActive] = useState(false);
 
   const onClickHandle = () => {
     setOpen(true);
     phoneStreamMode();
+  };
+
+  const [videoData, setvideoData] = useState("");
+
+  const streamsToStreams = () => {
+    const streams = document.getElementById(
+      "streams"
+    ) as HTMLIFrameElement | null;
+    const comments = document.getElementById(
+      "comments"
+    ) as HTMLIFrameElement | null;
+
+    if (streams) {
+      setvideoData(streams.src);
+    }
   };
 
   return (
@@ -181,8 +198,14 @@ function Home() {
         <div className="inline-block w-full h-full">
           <h1 className="title_underline">CHESS STREAM</h1>
           <div className="inline-flex gap-4">
-            <button className="button button-mode" onClick={() => viewMode()}>
-              Full screen mode
+            <button
+              className="button button-mode"
+              onClick={() => {
+                setisActive(true);
+                streamsToStreams();
+              }}
+            >
+              {!isActive ? "Full screen mode" : "Go back"}
             </button>
             <button className="button button-mode" onClick={onClickHandle}>
               Phone stream
@@ -190,50 +213,55 @@ function Home() {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center w-full gap-2 mt-12 container-growth box-preview">
-          {open && <PhoneMode />}
-          <div className="flex flex-col gap-12 box-column">
-            <div className="box-iframe w-[48vw] h-[365px]">
-              <Video id="streams" src=""></Video>
+        {isActive ? (
+          <FullScreenMode src={videoData} />
+        ) : (
+          <div className="flex flex-wrap justify-center w-full gap-2 mt-12 container-growth box-preview">
+            {open && <PhoneMode />}
+
+            <div className="flex flex-col gap-12 box-column">
+              <div className="box-iframe w-[48vw] h-[365px]">
+                <Video id="streams"></Video>
+              </div>
+
+              <div className="flex flex-col w-full gap-2 ">
+                {/* button div */}
+                {data.videoStreams.map((video, index) => (
+                  <button
+                    key={video.id}
+                    className="button button-stream "
+                    id={`btn-${video.id}`}
+                    onClick={(e) => replaceStream(e, index)}
+                  >
+                    {video.name}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="flex flex-col w-full gap-2 ">
-              {/* button div */}
-              {data.videoStreams.map((video, index) => (
-                <button
-                  key={video.id}
-                  className="button button-stream "
-                  id={`btn-${video.id}`}
-                  onClick={(e) => replaceStream(e, index)}
-                >
-                  {video.name}
-                </button>
-              ))}
+            <div
+              id="box-comments"
+              className="flex flex-col gap-12 container-growth "
+            >
+              <div className="box-iframe w-[48vw] h-[365px]">
+                <Video id="comments" />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                {data.videoComments.map((video, index) => (
+                  <button
+                    key={video.id}
+                    className="button button-comment"
+                    id={`btn-${video.id}`}
+                    onClick={(e) => replaceComments(e, index)}
+                  >
+                    {video.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-
-          <div
-            id="box-comments"
-            className="flex flex-col gap-12 container-growth "
-          >
-            <div className="box-iframe w-[48vw] h-[365px]">
-              <Video id="comments" />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {data.videoComments.map((video, index) => (
-                <button
-                  key={video.id}
-                  className="button button-comment"
-                  id={`btn-${video.id}`}
-                  onClick={(e) => replaceComments(e, index)}
-                >
-                  {video.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+        )}
       </body>
     </div>
   );

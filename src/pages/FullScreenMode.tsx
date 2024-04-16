@@ -8,17 +8,15 @@ import data from "../data.json";
 import "./FullScreenMode.css";
 import "allotment/dist/style.css";
 
-function FullScreenMode() {
+export default function FullScreenMode(props) {
   return (
     <>
       <div className="h-[95vh]">
         <Allotment>
-          <Video id="streams" />
-          <Video id="comments" />
+          <Video id="streams" src={props.src} />
+          <Video id="comments" src={props.src} />
         </Allotment>
       </div>
     </>
   );
 }
-
-export default FullScreenMode;
