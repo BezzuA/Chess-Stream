@@ -1,12 +1,11 @@
-import React, { useRef } from "react";
-import { MouseEvent, useState, useEffect, createContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import PhoneMode from "../components/PhoneMode";
+import React from "react";
+import { MouseEvent, useState } from "react";
+import FullScreenMode from "./FullScreenMode";
+import MobileScreenMode from "../pages/MobileScreenMode";
 import Video from "../components/video";
 import data from "../data.json";
 
 import "./App.css";
-import FullScreenMode from "./FullScreenMode";
 
 function autoPreview() {
   const iframeStreams = document.getElementById(
@@ -70,90 +69,6 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
   }
 }
 
-function phoneStreamMode() {
-  const buttonStreams = document.getElementsByClassName(
-      "button-stream"
-    ) as HTMLCollectionOf<HTMLElement>,
-    buttonComments = document.getElementsByClassName(
-      "button-comment"
-    ) as HTMLCollectionOf<HTMLElement>,
-    boxComments = document.getElementById(
-      "box-comments"
-    ) as HTMLIFrameElement | null,
-    boxPreview = document.getElementsByTagName(
-      "box-preview"
-    ) as HTMLCollectionOf<HTMLElement>,
-    boxIframe = document.getElementsByClassName(
-      "box-iframe"
-    ) as HTMLCollectionOf<HTMLElement>,
-    boxColumn = document.getElementsByClassName(
-      "box-column"
-    ) as HTMLCollectionOf<HTMLElement>;
-
-  for (let i = 0; i < buttonStreams.length; i++) {
-    buttonStreams[i].style.display = "none";
-  }
-  for (let i = 0; i < buttonComments.length; i++) {
-    buttonComments[i].style.display = "none";
-  }
-  for (let i = 0; i < boxIframe.length; i++) {
-    boxIframe[i].style.width = "90wh";
-    boxIframe[i].style.height = "95vh";
-  }
-  for (let i = 0; i < boxColumn.length; i++) {
-    boxColumn[i].style.gap = "0px";
-  }
-  for (let i = 0; i < boxPreview.length; i++) {
-    boxPreview[i].style.justifyContent = "flex-start";
-  }
-
-  if (boxComments) {
-    boxComments.style.display = "none";
-  }
-
-  document.getElementsByTagName("h1")[0].style.display = "none";
-}
-
-function viewMode() {
-  const buttonStreams = document.getElementsByClassName(
-      "button-stream"
-    ) as HTMLCollectionOf<HTMLElement>,
-    buttonComments = document.getElementsByClassName(
-      "button-comment"
-    ) as HTMLCollectionOf<HTMLElement>,
-    buttonModes = document.getElementsByClassName(
-      "button-mode"
-    ) as HTMLCollectionOf<HTMLElement>,
-    iframe = document.getElementsByTagName(
-      "iframe"
-    ) as HTMLCollectionOf<HTMLElement>,
-    boxIframe = document.getElementsByClassName(
-      "box-iframe"
-    ) as HTMLCollectionOf<HTMLElement>,
-    boxColumn = document.getElementsByClassName(
-      "box-column"
-    ) as HTMLCollectionOf<HTMLElement>;
-
-  for (let i = 0; i < buttonStreams.length; i++) {
-    buttonStreams[i].style.display = "none";
-  }
-  for (let i = 0; i < buttonComments.length; i++) {
-    buttonComments[i].style.display = "none";
-  }
-
-  for (let i = 0; i < boxIframe.length; i++) {
-    boxIframe[i].style.width = "50svw";
-    boxIframe[i].style.height = "90vh";
-  }
-
-  for (let i = 0; i < boxColumn.length; i++) {
-    boxColumn[i].style.gap = "0px";
-    boxColumn[i].style.flexWrap = "nowrap ";
-  }
-
-  document.getElementsByTagName("h1")[0].style.display = "none";
-}
-
 window.onload = () => {
   autoPreview();
 
@@ -169,59 +84,118 @@ window.onload = () => {
 };
 
 function Home() {
-  const [open, setOpen] = useState(false);
-  const [isActive, setisActive] = useState(false);
+  const [isFullScreen, setisFullScreen] = useState(false);
+  const [isMobileScreen, setisMobileScreen] = useState(false);
 
-  const onClickHandle = () => {
-    setOpen(true);
-    phoneStreamMode();
-  };
+  const [videoDataStreams, setvideoDataStreams] = useState("");
+  const [videoDataComments, setvideoDataComments] = useState("");
 
-  const [videoData, setvideoData] = useState("");
-
-  const streamsToStreams = () => {
+  function toMenu() {
     const streams = document.getElementById(
       "streams"
     ) as HTMLIFrameElement | null;
     const comments = document.getElementById(
-      "comments"
-    ) as HTMLIFrameElement | null;
+        "comments"
+      ) as HTMLIFrameElement | null,
+      buttontoFullScreen = document.getElementsByClassName(
+        "button-toFullScreen"
+      ) as HTMLCollectionOf<HTMLElement>,
+      buttontoMobileScreen = document.getElementsByClassName(
+        "button-toMobileScreen"
+      ) as HTMLCollectionOf<HTMLElement>;
 
     if (streams) {
-      setvideoData(streams.src);
+      setvideoDataStreams(streams.src);
     }
+    if (comments) {
+      setvideoDataComments(comments.src);
+    }
+
+    buttontoMobileScreen[0].style.display = "block";
+    buttontoFullScreen[0].style.display = "block";
+    setisFullScreen(false);
+    setisMobileScreen(false);
+  }
+  const previewToFullScreen = () => {
+    const streams = document.getElementById(
+      "streams"
+    ) as HTMLIFrameElement | null;
+    const comments = document.getElementById(
+        "comments"
+      ) as HTMLIFrameElement | null,
+      buttontoMobileScreen = document.getElementsByClassName(
+        "button-toMobileScreen"
+      ) as HTMLCollectionOf<HTMLElement>;
+
+    if (streams) {
+      setvideoDataStreams(streams.src);
+    }
+    if (comments) {
+      setvideoDataComments(comments.src);
+    }
+
+    buttontoMobileScreen[0].style.display = "none";
+    setisFullScreen(true);
+  };
+
+  const previewToMobileScreen = () => {
+    const streams = document.getElementById(
+        "streams"
+      ) as HTMLIFrameElement | null,
+      buttontoFullScreen = document.getElementsByClassName(
+        "button-toFullScreen"
+      ) as HTMLCollectionOf<HTMLElement>;
+
+    if (streams) {
+      setvideoDataStreams(streams.src);
+    }
+
+    buttontoFullScreen[0].style.display = "none";
+    setisMobileScreen(true);
   };
 
   return (
     <div className="App">
       <body className="App-header">
         <div className="inline-block w-full h-full">
-          <h1 className="title_underline">CHESS STREAM</h1>
-          <div className="inline-flex gap-4">
+          {!isFullScreen && !isMobileScreen ? (
+            <h1 className="title_underline">CHESS STREAM</h1>
+          ) : (
+            ""
+          )}
+
+          <div className="inline-flex gap-4 mb-4">
             <button
-              className="button button-mode"
+              className="button button-mode button-toFullScreen"
               onClick={() => {
-                setisActive(true);
-                streamsToStreams();
+                !isFullScreen ? previewToFullScreen() : toMenu();
               }}
             >
-              {!isActive ? "Full screen mode" : "Go back"}
+              {!isFullScreen ? "Full Screen" : "Go back"}
             </button>
-            <button className="button button-mode" onClick={onClickHandle}>
-              Phone stream
+            <button
+              className="button button-mode button-toMobileScreen"
+              onClick={() => {
+                !isMobileScreen ? previewToMobileScreen() : toMenu();
+              }}
+            >
+              {!isMobileScreen ? "Mobile Screen" : "Go back"}
             </button>
           </div>
         </div>
 
-        {isActive ? (
-          <FullScreenMode src={videoData} />
+        {isFullScreen ? (
+          <FullScreenMode
+            streams={videoDataStreams}
+            comments={videoDataComments}
+          />
+        ) : isMobileScreen ? (
+          <MobileScreenMode streams={videoDataStreams} />
         ) : (
           <div className="flex flex-wrap justify-center w-full gap-2 mt-12 container-growth box-preview">
-            {open && <PhoneMode />}
-
             <div className="flex flex-col gap-12 box-column">
               <div className="box-iframe w-[48vw] h-[365px]">
-                <Video id="streams"></Video>
+                <Video id="streams" src={videoDataStreams}></Video>
               </div>
 
               <div className="flex flex-col w-full gap-2 ">
@@ -244,7 +218,7 @@ function Home() {
               className="flex flex-col gap-12 container-growth "
             >
               <div className="box-iframe w-[48vw] h-[365px]">
-                <Video id="comments" />
+                <Video id="comments" src={videoDataComments} />
               </div>
 
               <div className="flex flex-col gap-2">
@@ -268,25 +242,3 @@ function Home() {
 }
 
 export default Home;
-
-//UC9B47GnzCRFHTT1BIBWvStQ
-
-{
-  /* <div onClick={() => setIsActive(!isActive)}>
-              <h2 className="cursor-pointer">FIDE Chess</h2>
-              {isActive && (
-                <div className="flex flex-col gap-2">
-                  {videoStreams.map((video, index) => (
-                    <button
-                      key={video.id}
-                      className="button button-videos"
-                      id={`btn-${video.id}`}
-                      onClick={(e) => replaceStream(e, index)}
-                    >
-                      {video.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div> */
-}
