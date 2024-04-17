@@ -3,7 +3,7 @@ import { MouseEvent, useState } from "react";
 import FullScreenMode from "./FullScreenMode";
 import MobileScreenMode from "../pages/MobileScreenMode";
 import Video from "../components/video";
-import data from "../data.json";
+import data from "../data/data.json";
 
 import "./App.css";
 
@@ -14,6 +14,15 @@ function autoPreview() {
     iframeComments = document.getElementById(
       "comments"
     ) as HTMLIFrameElement | null;
+  const buttonStreams = document.getElementsByClassName(
+      "button-stream"
+    ) as HTMLCollectionOf<HTMLElement>,
+    buttonComments = document.getElementsByClassName(
+      "button-comment"
+    ) as HTMLCollectionOf<HTMLElement>;
+
+  buttonStreams[0].style.background = "#6b7280";
+  buttonComments[0].style.background = "#6b7280";
 
   if (iframeStreams) {
     iframeStreams.src = data.videoStreams[0].url + "&rel=0";
@@ -71,16 +80,6 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
 
 window.onload = () => {
   autoPreview();
-
-  const buttonStreams = document.getElementsByClassName(
-      "button-stream"
-    ) as HTMLCollectionOf<HTMLElement>,
-    buttonComments = document.getElementsByClassName(
-      "button-comment"
-    ) as HTMLCollectionOf<HTMLElement>;
-
-  buttonStreams[0].style.background = "#6b7280";
-  buttonComments[0].style.background = "#6b7280";
 };
 
 function Home() {
@@ -157,16 +156,16 @@ function Home() {
   return (
     <div className="App">
       <body className="App-header">
-        <div className="inline-block w-full h-full">
+        <div className="flex flex-wrap justify-between h-full">
           {!isFullScreen && !isMobileScreen ? (
             <h1 className="title_underline">CHESS STREAM</h1>
           ) : (
             ""
           )}
 
-          <div className="inline-flex gap-4 mb-4">
+          <div className="inline-flex items-end gap-2 mb-4">
             <button
-              className="button button-mode button-toFullScreen"
+              className="button-outlined button-mode button-toFullScreen w-[20px] items-end"
               onClick={() => {
                 !isFullScreen ? previewToFullScreen() : toMenu();
               }}
@@ -174,7 +173,7 @@ function Home() {
               {!isFullScreen ? "Full Screen" : "Go back"}
             </button>
             <button
-              className="button button-mode button-toMobileScreen"
+              className="button-outlined button-mode button-toMobileScreen"
               onClick={() => {
                 !isMobileScreen ? previewToMobileScreen() : toMenu();
               }}
@@ -192,14 +191,13 @@ function Home() {
         ) : isMobileScreen ? (
           <MobileScreenMode streams={videoDataStreams} />
         ) : (
-          <div className="flex flex-wrap justify-center w-full gap-2 mt-12 container-growth box-preview">
+          <div className="flex flex-wrap justify-center w-full gap-2 mt-20 container-growth box-preview">
             <div className="flex flex-col gap-12 box-column">
               <div className="box-iframe w-[48vw] h-[365px]">
                 <Video id="streams" src={videoDataStreams}></Video>
               </div>
 
               <div className="flex flex-col w-full gap-2 ">
-                {/* button div */}
                 {data.videoStreams.map((video, index) => (
                   <button
                     key={video.id}

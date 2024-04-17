@@ -8,7 +8,7 @@ import "allotment/dist/style.css";
 export default function FullScreenMode(prop) {
   return (
     <>
-      <div className="h-[95vh]">
+      <div className="h-[90vh]">
         <Allotment>
           <Video id="streams" src={prop.streams} />
           <Video id="comments" src={prop.comments} />
