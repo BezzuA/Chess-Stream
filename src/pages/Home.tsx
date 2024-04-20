@@ -25,10 +25,18 @@ function autoPreview() {
   buttonComments[0].style.background = "#6b7280";
 
   if (iframeStreams) {
-    iframeStreams.src = data.videoStreams[0].url + "&rel=0";
+    iframeStreams.src =
+      data.videoStreams[0].url.replaceAll(
+        "https://www.youtube.com/live/",
+        "https://www.youtube.com/embed/"
+      ) + "&rel=0";
   }
   if (iframeComments) {
-    iframeComments.src = data.videoComments[0].url + "&rel=0";
+    iframeComments.src =
+      data.videoComments[0].url.replaceAll(
+        "https://www.youtube.com/live/",
+        "https://www.youtube.com/embed/"
+      ) + "&rel=0";
   }
 }
 
@@ -47,7 +55,11 @@ function replaceStream(link: MouseEvent<HTMLButtonElement>, value: number) {
     }
 
     if (iframe) {
-      iframe.src = data.videoStreams[value].url + "&rel=0";
+      iframe.src =
+        data.videoStreams[value].url.replaceAll(
+          "https://www.youtube.com/live/",
+          "https://www.youtube.com/embed/"
+        ) + "&rel=0";
       buttonVideos[value].style.background = "#6b7280";
     } else {
       console.error("Iframe not found");
@@ -73,7 +85,11 @@ function replaceComments(link: MouseEvent<HTMLButtonElement>, value: number) {
     }
 
     if (iframe) {
-      iframe.src = data.videoComments[value].url + "&rel=0";
+      iframe.src =
+        data.videoComments[value].url.replaceAll(
+          "https://www.youtube.com/live/",
+          "https://www.youtube.com/embed/"
+        ) + "&rel=0";
     }
   }
 }
@@ -158,7 +174,9 @@ function Home() {
       <body className="App-header">
         <div className="flex flex-wrap justify-between h-full">
           {!isFullScreen && !isMobileScreen ? (
-            <h1 className="title_underline">CHESS STREAM</h1>
+            <div>
+              <h1 className="title_underline">CHESS STREAM</h1>
+            </div>
           ) : (
             ""
           )}
@@ -216,7 +234,13 @@ function Home() {
               className="flex flex-col gap-12 container-growth "
             >
               <div className="box-iframe w-[48vw] h-[365px]">
-                <Video id="comments" src={videoDataComments} />
+                <Video
+                  id="comments"
+                  src={videoDataComments.replaceAll(
+                    "https://www.youtube.com/live/",
+                    "https://www.youtube.com/embed/"
+                  )}
+                />
               </div>
 
               <div className="flex flex-col gap-2">
