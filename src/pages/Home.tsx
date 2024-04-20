@@ -1,11 +1,14 @@
 import React from "react";
 import { MouseEvent, useState } from "react";
+import { Allotment } from "allotment";
 import FullScreenMode from "./FullScreenMode";
 import MobileScreenMode from "../pages/MobileScreenMode";
 import Video from "../components/video";
 import data from "../data/data.json";
 
 import "./App.css";
+import "./FullScreenMode.css";
+import "allotment/dist/style.css";
 
 function autoPreview() {
   const iframeStreams = document.getElementById(
@@ -170,8 +173,8 @@ function Home() {
   };
 
   return (
-    <div className="App">
-      <body className="App-header">
+    <div className="home">
+      <body>
         <div className="flex flex-wrap justify-between h-full">
           {!isFullScreen && !isMobileScreen ? (
             <div>
@@ -209,12 +212,13 @@ function Home() {
         ) : isMobileScreen ? (
           <MobileScreenMode streams={videoDataStreams} />
         ) : (
-          <div className="flex flex-wrap justify-center w-full gap-2 mt-20 container-growth box-preview">
-            <div className="flex flex-col gap-12 box-column">
-              <div className="box-iframe w-[48vw] h-[365px]">
-                <Video id="streams" src={videoDataStreams}></Video>
-              </div>
+          <div className="h-[100vh] videoPreview">
+            <Allotment>
+              <Video id="streams" src={videoDataStreams}></Video>
+              <Video id="comments" src={videoDataComments} />
+            </Allotment>
 
+            <div className="flex gap-4 my-6 flex-col-2">
               <div className="flex flex-col w-full gap-2 ">
                 {data.videoStreams.map((video, index) => (
                   <button
@@ -227,23 +231,7 @@ function Home() {
                   </button>
                 ))}
               </div>
-            </div>
-
-            <div
-              id="box-comments"
-              className="flex flex-col gap-12 container-growth "
-            >
-              <div className="box-iframe w-[48vw] h-[365px]">
-                <Video
-                  id="comments"
-                  src={videoDataComments.replaceAll(
-                    "https://www.youtube.com/live/",
-                    "https://www.youtube.com/embed/"
-                  )}
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col w-full gap-2">
                 {data.videoComments.map((video, index) => (
                   <button
                     key={video.id}
