@@ -212,7 +212,7 @@ function Home() {
         ) : isMobileScreen ? (
           <MobileScreenMode streams={videoDataStreams} />
         ) : (
-          <div className="h-[100vh] videoPreview">
+          <div className="h-[86vh] videoPreview">
             <Allotment>
               <Video id="streams" src={videoDataStreams}></Video>
               <Video id="comments" src={videoDataComments} />
