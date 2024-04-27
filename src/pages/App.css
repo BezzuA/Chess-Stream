@@ -1,10 +1,10 @@
-.App {
+.home:not(.videoPreview) {
   text-align: center;
   padding: 20px;
-  background-color: #282c34;
 }
 
-.App-header {
+body {
+  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
