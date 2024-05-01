@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import FullScreenMode from "./pages/FullScreenMode";
+import FullScreenMode from "./components/FullScreen/FullScreenMode";
 import "./pages/App.css";
 
 function App() {

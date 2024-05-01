@@ -1,6 +1,6 @@
 import React from "react";
 import { Allotment } from "allotment";
-import Video from "../components/video";
+import Video from "../video";
 
 import "./FullScreenMode.css";
 import "allotment/dist/style.css";
