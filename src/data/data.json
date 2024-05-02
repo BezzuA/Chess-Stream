@@ -7,16 +7,11 @@
     },
     {
       "id": 2,
-      "name": "Ian Nepomniachtchi - Nijat Abasov",
-      "url": "https://www.youtube.com/live/jjYIV5efMMw?si=zk7oeskG1nimhFvN"
-    },
-    {
-      "id": 3,
       "name": "Hikaru Nakamura - Fabiano Caruana",
       "url": "https://www.youtube.com/embed/0-XC_x0R5cU?si=ucnFoD9RA_Y3gz3T"
     },
     {
-      "id": 4,
+      "id": 3,
       "name": "Vidit Gujrathi - Gukesh D",
       "url": "https://www.youtube.com/embed/EKdGWKIK7JM?si=ppJBCQieq9oJjs5m"
     }
@@ -25,26 +20,21 @@
   "videoComments": [
     {
       "id": 1,
-      "name": "Round 8 FIDE Candidates & Women's Candidates",
-      "url": "https://www.youtube.com/live/R0T4RDxfpUo?si=90MVeuW4MLZpuxfv"
-    },
-    {
-      "id": 2,
       "name": "Crestbook Chess",
+      "type": "desktop",
       "url": "https://www.youtube.com/embed/3VBcK4TauBA?si=Mig2WS2FiR3pdE8x"
     },
     {
-      "id": 3,
+      "id": 2,
       "name": "Levitov Chess",
+      "type": "desktop",
       "url": "https://www.youtube.com/embed/OLlVBEq_Y2U?si=Xo9PlkpNnbg6U_7l"
-    }
-  ],
-
-  "videoMobileComments": [
+    },
     {
-      "id": 1,
+      "id": 3,
       "name": "Мобильный стрим",
-      "url": "https://www.youtube.com/live/jjYIV5efMMw?si=zk7oeskG1nimhFvN"
+      "type": "mobile",
+      "url": "https://www.youtube.com/live/79Rrm9AItlA?si=3PETrSSjkqXJZ5O3"
     }
   ]
 }

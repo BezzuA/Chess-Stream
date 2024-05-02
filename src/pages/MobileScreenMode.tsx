@@ -12,13 +12,7 @@ export default function MobileScreenMode(prop) {
       <div className="h-[90vh]">
         <Allotment defaultSizes={[200, 100]}>
           <Video id="streams" src={prop.streams} />
-          <Video
-            id="comments"
-            src={data.videoMobileComments[0].url.replaceAll(
-              "https://www.youtube.com/live/",
-              "https://www.youtube.com/embed/"
-            )}
-          />
+          <Video id="comments" src={prop.comments} />
         </Allotment>
       </div>
     </>

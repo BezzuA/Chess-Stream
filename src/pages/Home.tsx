@@ -1,5 +1,5 @@
-import React from "react";
-import { MouseEvent, useState } from "react";
+import React, { useRef } from "react";
+import { useState } from "react";
 import FullScreenMode from "../components/FullScreen/FullScreenMode";
 import replaceStream from "../hooks/replaceStream";
 import replaceComments from "../hooks/replaceComments";
@@ -48,11 +48,12 @@ window.onload = () => {
 function Home() {
   const [videoDataStreams, setvideoDataStreams] = useState("");
   const [videoDataComments, setvideoDataComments] = useState("");
+  const [iframePreview, setiframePreview] = useState("");
 
   return (
     <div className="home">
       <body>
-        <div className="flex justify-center">
+        <div className="flex">
           <div>
             <h1>CHESS STREAM</h1>
           </div>
@@ -61,6 +62,7 @@ function Home() {
         <FullScreenMode
           streams={videoDataStreams}
           comments={videoDataComments}
+          sizes={iframePreview}
         />
 
         <div className="flex gap-4 my-6 flex-col-2">
