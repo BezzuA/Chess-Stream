@@ -5,7 +5,7 @@ import replaceStream from "../hooks/replaceStream";
 import replaceComments from "../hooks/replaceComments";
 import data from "../data/data.json";
 
-import "./App.css";
+import "./Home.css";
 import "allotment/dist/style.css";
 
 function autoPreview() {
@@ -48,7 +48,7 @@ window.onload = () => {
 function Home() {
   const [videoDataStreams, setvideoDataStreams] = useState("");
   const [videoDataComments, setvideoDataComments] = useState("");
-  const [iframePreview, setiframePreview] = useState("");
+  const [iframeType, setiframeType] = useState<string>("");
 
   return (
     <div className="home">
@@ -58,13 +58,13 @@ function Home() {
             <h1>CHESS STREAM</h1>
           </div>
         </div>
-
         <FullScreenMode
           streams={videoDataStreams}
           comments={videoDataComments}
-          sizes={iframePreview}
+          type={iframeType ? iframeType : data.videoComments[0].type}
         />
 
+        {/* button for streams */}
         <div className="flex gap-4 my-6 flex-col-2">
           <div className="flex flex-col w-full gap-2 ">
             {data.videoStreams.map((video, index) => (
@@ -78,13 +78,18 @@ function Home() {
               </button>
             ))}
           </div>
+
+          {/* button for video Comments */}
           <div className="flex flex-col w-full gap-2">
             {data.videoComments.map((video, index) => (
               <button
                 key={video.id}
                 className="button button-comment"
                 id={`btn-${video.id}`}
-                onClick={(e) => replaceComments(e, index)}
+                onClick={(e) => {
+                  replaceComments(e, index);
+                  setiframeType(video.type);
+                }}
               >
                 {video.name}
               </button>
