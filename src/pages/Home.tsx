@@ -1,11 +1,10 @@
-import React from "react";
-import { MouseEvent, useState } from "react";
-import FullScreenMode from "../components/FullScreen/FullScreenMode";
+import { useState, useRef } from "react";
+import SplitPane from "../components/SplitPane/SplitPane";
 import replaceStream from "../hooks/replaceStream";
 import replaceComments from "../hooks/replaceComments";
 import data from "../data/data.json";
 
-import "./App.css";
+import "./Home.css";
 import "allotment/dist/style.css";
 
 function autoPreview() {
@@ -48,21 +47,25 @@ window.onload = () => {
 function Home() {
   const [videoDataStreams, setvideoDataStreams] = useState("");
   const [videoDataComments, setvideoDataComments] = useState("");
+  const typeVideo = useRef<string>(data.videoComments[0].type);
+  const resizeIframe = useRef<any>();
 
   return (
     <div className="home">
       <body>
-        <div className="flex justify-center">
+        <div className="flex">
           <div>
             <h1>CHESS STREAM</h1>
           </div>
         </div>
-
-        <FullScreenMode
+        <SplitPane
           streams={videoDataStreams}
           comments={videoDataComments}
+          resizeIframe={resizeIframe}
+          typeVideo={typeVideo}
         />
 
+        {/* button for streams */}
         <div className="flex gap-4 my-6 flex-col-2">
           <div className="flex flex-col w-full gap-2 ">
             {data.videoStreams.map((video, index) => (
@@ -76,13 +79,20 @@ function Home() {
               </button>
             ))}
           </div>
+
+          {/* button for video Comments */}
           <div className="flex flex-col w-full gap-2">
             {data.videoComments.map((video, index) => (
               <button
                 key={video.id}
                 className="button button-comment"
                 id={`btn-${video.id}`}
-                onClick={(e) => replaceComments(e, index)}
+                onClick={(e) => {
+                  replaceComments(e, index);
+                  resizeIframe.current.resize(
+                    video.type === "mobile" ? [200, 100] : [200, 200]
+                  );
+                }}
               >
                 {video.name}
               </button>

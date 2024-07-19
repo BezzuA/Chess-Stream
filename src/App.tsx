@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import FullScreenMode from "./components/FullScreen/FullScreenMode";
-import "./pages/App.css";
+import FullScreenMode from "./components/SplitPane/SplitPane";
+import "./pages/Home.css";
 
 function App() {
   return (

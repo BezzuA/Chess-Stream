@@ -5,14 +5,13 @@ export default function replaceComments(
   link: MouseEvent<HTMLButtonElement>,
   value: number
 ) {
-  const buttonVideos = document.getElementsByClassName(
-    "button-comment"
-  ) as HTMLCollectionOf<HTMLElement>;
-
   if (data.videoComments[value].url !== undefined) {
     const iframe = document.getElementById(
-      "comments"
-    ) as HTMLIFrameElement | null;
+        "comments"
+      ) as HTMLIFrameElement | null,
+      buttonVideos = document.getElementsByClassName(
+        "button-comment"
+      ) as HTMLCollectionOf<HTMLElement>;
 
     for (let i = 0; i < buttonVideos.length; i++) {
       buttonVideos[i].style.background = "#111827";
