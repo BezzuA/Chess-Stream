@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
-import { useState } from "react";
-import FullScreenMode from "../components/FullScreen/FullScreenMode";
+import { useState, useRef } from "react";
+import SplitPane from "../components/SplitPane/SplitPane";
 import replaceStream from "../hooks/replaceStream";
 import replaceComments from "../hooks/replaceComments";
 import data from "../data/data.json";
@@ -48,7 +47,8 @@ window.onload = () => {
 function Home() {
   const [videoDataStreams, setvideoDataStreams] = useState("");
   const [videoDataComments, setvideoDataComments] = useState("");
-  const [iframeType, setiframeType] = useState<string>("");
+  const typeVideo = useRef<string>(data.videoComments[0].type);
+  const resizeIframe = useRef<any>();
 
   return (
     <div className="home">
@@ -58,10 +58,11 @@ function Home() {
             <h1>CHESS STREAM</h1>
           </div>
         </div>
-        <FullScreenMode
+        <SplitPane
           streams={videoDataStreams}
           comments={videoDataComments}
-          type={iframeType ? iframeType : data.videoComments[0].type}
+          resizeIframe={resizeIframe}
+          typeVideo={typeVideo}
         />
 
         {/* button for streams */}
@@ -88,7 +89,9 @@ function Home() {
                 id={`btn-${video.id}`}
                 onClick={(e) => {
                   replaceComments(e, index);
-                  setiframeType(video.type);
+                  resizeIframe.current.resize(
+                    video.type === "mobile" ? [200, 100] : [200, 200]
+                  );
                 }}
               >
                 {video.name}
