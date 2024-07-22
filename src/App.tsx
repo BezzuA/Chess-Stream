@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import FullScreenMode from "./components/SplitPane/SplitPane";
 import "./pages/Home.css";
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/App" element={<App />}></Route>
-        <Route path="/fullscreenmode" element={<FullScreenMode />}></Route>
       </Routes>
     </>
   );

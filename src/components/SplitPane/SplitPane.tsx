@@ -1,7 +1,5 @@
-import data from "C:/Users/Admin/chess-streams/src/data/data.json";
 import { Allotment } from "allotment";
 import Video from "../video";
-
 import "./SplitPane.css";
 import "allotment/dist/style.css";
 

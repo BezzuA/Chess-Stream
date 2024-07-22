@@ -2,25 +2,25 @@ import data from "../data/data.json";
 import { MouseEvent } from "react";
 
 export default function replaceComments(
-  link: MouseEvent<HTMLButtonElement>,
-  value: number
+  event: MouseEvent<HTMLButtonElement>,
+  index: number
 ) {
-  if (data.videoComments[value].url !== undefined) {
+  const { url } = data.videoComments[index];
+  if (url) {
     const iframe = document.getElementById(
-        "comments"
-      ) as HTMLIFrameElement | null,
-      buttonVideos = document.getElementsByClassName(
-        "button-comment"
-      ) as HTMLCollectionOf<HTMLElement>;
+      "comments"
+    ) as HTMLIFrameElement | null;
+    const buttonVideos = document.getElementsByClassName(
+      "button-comment"
+    ) as HTMLCollectionOf<HTMLElement>;
 
-    for (let i = 0; i < buttonVideos.length; i++) {
-      buttonVideos[i].style.background = "#111827";
-      buttonVideos[value].style.background = "#6b7280";
-    }
+    Array.from(buttonVideos).forEach((button, i) => {
+      button.style.background = i === index ? "#6b7280" : "#111827";
+    });
 
     if (iframe) {
       iframe.src =
-        data.videoComments[value].url.replaceAll(
+        url.replace(
           "https://www.youtube.com/live/",
           "https://www.youtube.com/embed/"
         ) + "&rel=0";
